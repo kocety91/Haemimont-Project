@@ -7,13 +7,13 @@ namespace Haemimont_Interview.FilesOutput
         public override void WriteToFile(string folderName, string fileName, StudetOutputDto[] students)
         {
             var outputDirectory = base.GetOutputDirectory(folderName, fileName);
-            var reportAsHtmlTable = this.GenerateHtmlReport(students);
+            var reportAsHtmlTable = this.GenerateReport(students);
 
             using StreamWriter streamWriter = new StreamWriter(outputDirectory);
             streamWriter.WriteLine(reportAsHtmlTable);
         }
 
-        private string GenerateHtmlReport(StudetOutputDto[] students)
+        private string GenerateReport(StudetOutputDto[] students)
         {
             var sb = new StringBuilder();
 
