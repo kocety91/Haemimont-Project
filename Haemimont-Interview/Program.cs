@@ -1,7 +1,7 @@
 ﻿using Haemimont_Interview;
+using Haemimont_Interview.FilesOutput;
 using Haemimont_Interview.Models;
 using System.Globalization;
-using System.Text.Json;
 
 //// minumum required credits
 try
@@ -17,16 +17,19 @@ try
 
     ParseDateInput(startDateAsString, endDateAsString, out parsedStartDate, out parsedEndtDate);
 
-
     // output path
     //src/file.csv || src/file.html
-    var outputPath = Console.ReadLine().Split("/", StringSplitOptions.RemoveEmptyEntries).ToArray();
+    var folderName = Console.ReadLine();
 
-    var folderName = outputPath[0];
-    var fileName = outputPath[1];
 
-    ////output format
-    //var outputFormat = Console.ReadLine();
+    //output format
+    var fileName = Console.ReadLine();
+    var dict = new Dictionary<string, Haemimont_Interview.FilesOutput.File>()
+    {
+        {".csv", new CsvFile()},
+        {".html", new HtmlFile()},
+    };
+
 
     ////Students PIN's or Students with enought credits
     var studentPINs = Console.ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -37,20 +40,19 @@ try
 
     var studentDto = GetStudentsData(minCredits, parsedStartDate, parsedEndtDate, studentPINs, db, studentsOutput);
 
-    var currentDirectory = Directory.GetCurrentDirectory();
-    var directoryPath = Path.GetDirectoryName(currentDirectory);
-
-    var folerPath = Path.Combine(directoryPath, folderName);
-
-    if (!Directory.Exists(folerPath))
+    if (fileName != string.Empty)
     {
-        Directory.CreateDirectory(folerPath);
+        var file = dict[fileName];
+        file.WriteToFile(folderName, fileName, studentDto);
+    }
+    else
+    {
+        foreach (var item in dict)
+        {
+            item.Value.WriteToFile(folderName, item.Key, studentDto);
+        }
     }
 
-    var outputDirectory = Path.Combine(folerPath, fileName);
-    var serializedStudents = JsonSerializer.Serialize(studentDto);
-
-    File.WriteAllText(outputDirectory, serializedStudents);
 }
 catch (Exception ex)
 {
@@ -111,11 +113,16 @@ static StudetOutputDto[] GetStudentsData(int minCredits, DateTime parsedStartDat
                      Select(x => new StudetOutputDto
                      {
                          FullName = x.FirstName + " " + x.LastName,
-                         CourseNames = x.StudentsCoursesXrefs.Select(c => c.Course.Name),
                          Times = x.StudentsCoursesXrefs.Select(t => t.Course.TotalTime),
                          Credits = x.StudentsCoursesXrefs.Select(c => c.Course.Credit),
-                         Instructors = x.StudentsCoursesXrefs.Select(i => i.Course.Instructor.FirstName + " " + i.Course.Instructor.LastName),
-                         TotalCredit = x.StudentsCoursesXrefs.Sum(c => c.Course.Credit)
+                         TotalCredit = x.StudentsCoursesXrefs.Sum(c => c.Course.Credit),
+                         Courses = x.StudentsCoursesXrefs.Select(c => c.Course).Select(c => new CourseOutputDto()
+                         {
+                             Credit = c.Credit,
+                             Name = c.Name,
+                             TotalTime = c.TotalTime,
+                             InstructorName = c.Instructor.FirstName + " " + c.Instructor.LastName,
+                         })
                      }).ToArray();
     return output;
 }
