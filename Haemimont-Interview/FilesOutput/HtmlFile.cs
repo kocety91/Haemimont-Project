@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Haemimont_Interview.Dtos;
+using System.Text;
 
 namespace Haemimont_Interview.FilesOutput
 {

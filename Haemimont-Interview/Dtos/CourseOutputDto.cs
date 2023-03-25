@@ -1,4 +1,4 @@
-﻿namespace Haemimont_Interview
+﻿namespace Haemimont_Interview.Dtos
 {
     public class CourseOutputDto
     {

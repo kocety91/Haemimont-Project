@@ -1,0 +1,3 @@
+FullName:Todor Ignatev,CourseName:Analysis,CourseTime:20,CourseCredit:10,InstructorName:Ivan Ivanov,StartDate:2019-07-16,EndDate:2019-08-20,MinCredits:10
+FullName:Todor Ignatev,CourseName:Linear Algebra,CourseTime:30,CourseCredit:15,InstructorName:Ivan Ivanov,StartDate:2019-07-16,EndDate:2019-08-20,MinCredits:15
+FullName:Ivan Kirov,CourseName:Statistics,CourseTime:30,CourseCredit:15,InstructorName:Kiril Petev,StartDate:2019-07-16,EndDate:2020-12-05,MinCredits:15

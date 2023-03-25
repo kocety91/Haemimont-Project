@@ -1,4 +1,6 @@
-﻿namespace Haemimont_Interview.Inputs
+﻿using Haemimont_Interview.Dtos;
+
+namespace Haemimont_Interview.Inputs
 {
     public abstract class BaseInput
     {

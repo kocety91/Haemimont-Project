@@ -1,4 +1,5 @@
-﻿using Haemimont_Interview.Models;
+﻿using Haemimont_Interview.Dtos;
+using Haemimont_Interview.Models;
 
 namespace Haemimont_Interview.Inputs
 {
@@ -41,16 +42,15 @@ namespace Haemimont_Interview.Inputs
                              Select(x => new StudetOutputDto
                              {
                                  FullName = x.FirstName + " " + x.LastName,
-                                 Times = x.StudentsCoursesXrefs.Select(t => t.Course.TotalTime),
-                                 Credits = x.StudentsCoursesXrefs.Select(c => c.Course.Credit),
                                  TotalCredit = x.StudentsCoursesXrefs.Sum(c => c.Course.Credit),
-                                 Courses = x.StudentsCoursesXrefs.Select(c => c.Course).Select(c => new CourseOutputDto()
+                                 Courses = x.StudentsCoursesXrefs.Select(c => c.Course)
+                                 .Select(c => new CourseOutputDto()
                                  {
                                      Credit = c.Credit,
                                      Name = c.Name,
                                      TotalTime = c.TotalTime,
                                      InstructorName = c.Instructor.FirstName + " " + c.Instructor.LastName,
-                                 })
+                                 }).ToList()
                              }).ToArray();
             return output;
         }

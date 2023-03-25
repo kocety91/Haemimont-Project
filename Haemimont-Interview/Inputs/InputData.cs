@@ -28,44 +28,15 @@ namespace Haemimont_Interview.Inputs
         {
             var studentsInput = Console.ReadLine().Split(",",StringSplitOptions.RemoveEmptyEntries);
             this.MinCredits = int.Parse(studentsInput[0]);
-            this.ParseDateInput(studentsInput[1], studentsInput[2]);
+
+            var parsedData =  DateTimeParser.ParseDateRange(studentsInput[1], studentsInput[2]);
+            this.ParsedStartDate = parsedData.parsedStartDate;
+            this.ParsedEndtDate = parsedData.parsedEndtDate;
+
             this.FolderName = studentsInput[3];
             this.FileName = studentsInput[4];
 
             this.StudentPins = Console.ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
-        }
-
-        private void ParseDateInput(string startDateAsString, string endDateAsString)
-        {
-            DateTime parsedStartDate;
-            DateTime parsedEndtDate;
-
-            var isStartDateCorrect = DateTime.TryParseExact(
-                                             startDateAsString, "yyyy-MM-dd",
-                                             CultureInfo.InvariantCulture,
-                                             DateTimeStyles.None,
-                                             out parsedStartDate);
-
-         
-
-            var isEndDateCorrect = DateTime.TryParseExact
-                                          (endDateAsString, "yyyy-MM-dd",
-                                          CultureInfo.InvariantCulture,
-                                          DateTimeStyles.None,
-                                           out parsedEndtDate);
-
-            if (!isStartDateCorrect || !isEndDateCorrect)
-            {
-                throw new ArgumentException("Failed to parse the date.");
-            }
-
-            if (parsedEndtDate < parsedStartDate)
-            {
-                throw new ArgumentException("End date cannot be less than start date.");
-            }
-
-            this.ParsedStartDate = parsedStartDate;
-            this.ParsedEndtDate = parsedEndtDate;
         }
     }
 }

@@ -5,12 +5,12 @@ try
 {
     var inputData = new InputData();
     inputData.ReadInputData();
-   
 
-    //BaseIput file = new FileInput(new CourseraContext());
-    BaseInput db = new DbInput(new CourseraContext());
 
-    var studentDto = db.GetStudentsData
+    //BaseInput file1 = new FileInput();
+    BaseInput data = new DbInput(new CourseraContext());
+
+    var studentDto = data.GetStudentsData
                              (inputData.MinCredits,
                              inputData.ParsedStartDate,
                              inputData.ParsedEndtDate,

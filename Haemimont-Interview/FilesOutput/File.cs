@@ -1,4 +1,6 @@
-﻿namespace Haemimont_Interview.FilesOutput
+﻿using Haemimont_Interview.Dtos;
+
+namespace Haemimont_Interview.FilesOutput
 {
     public abstract class File
     {
